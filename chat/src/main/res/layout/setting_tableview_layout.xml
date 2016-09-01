@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/settint_background"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:background="#dddddd"
+                android:orientation="vertical" >
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/darker_gray" />
+		    <ImageView 
+		        android:layout_width="80dp"
+		        android:layout_height="80dp"
+		        android:src="@drawable/people_icon_selector"
+		        android:layout_gravity="center"
+		        android:id="@+id/iv_usr_icon"
+		        />
+                
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#dddddd"
+                android:baselineAligned="false"
+                android:orientation="vertical" >
+
+                <include
+                    android:id="@+id/line_logout"
+                    layout="@layout/line_spacliter" />
+
+                <Button 
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:text="@string/logout"
+                    android:id="@+id/btn_logout"
+                    android:background="@drawable/btn_logout_background"
+                    />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/darker_gray" />
+
+            </LinearLayout>
+            <!-- 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#dddddd"
+                android:baselineAligned="false"
+                android:orientation="vertical" >
+
+                <include
+                    android:id="@+id/line_switch"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    layout="@layout/line_spacliter" />
+
+                <include layout="@layout/action_more_item_setting_switch" 
+                    	android:id="@+id/include_sw_service"
+                    	/>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/darker_gray" />
+
+                <include layout="@layout/action_more_item_setting_switch" 
+                    android:id="@+id/include_sw_runinit"
+                    />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/darker_gray" />
+            </LinearLayout>
+			 -->
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

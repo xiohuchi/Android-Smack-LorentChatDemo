@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:src="@drawable/img_back_selector" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="讨论组"
+            android:textColor="@color/whites"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#DEDFE0" />
+
+        <RelativeLayout
+            android:id="@+id/rl_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <EditText
+
+                android:id="@+id/search_key"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_toLeftOf="@+id/btn_search"
+                android:background="@null"
+                android:hint="群名"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="#555555"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_test"
+                android:layout_width="55dp"
+                android:layout_height="40dp"
+                android:layout_alignBaseline="@+id/search_key"
+                android:layout_alignBottom="@+id/search_key"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_login_selector"
+                android:gravity="center"
+                android:text="测试"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <Button
+
+                android:id="@+id/btn_search"
+                android:layout_width="55dp"
+                android:layout_height="40dp"
+                android:layout_alignBaseline="@+id/search_key"
+                android:layout_alignBottom="@+id/search_key"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/btn_test"
+                android:background="@drawable/btn_login_selector"
+                android:gravity="center"
+                android:text="搜索"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#DEDFE0" />
+    </LinearLayout>
+
+    <ExpandableListView
+        android:id="@+id/search_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_add"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="#70CDCDCD"
+        android:dividerHeight="0.5dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="true"
+        android:listSelector="@drawable/list_item_selector"
+        android:scrollbars="none" />
+
+</RelativeLayout>

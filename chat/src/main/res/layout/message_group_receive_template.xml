@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="left"
+    android:minHeight="40dip"
+    android:orientation="vertical"
+    android:paddingBottom="4dip"
+    android:paddingTop="4dip" >
+
+    <include layout="@layout/message_timestamp" />
+
+<AbsoluteLayout
+    android:id="@+id/message_layout_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+     >
+    <LinearLayout
+        android:id="@+id/message_layout_contentcontainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        
+		 <LinearLayout
+            android:id="@+id/message_layout_rightcontainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dip"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/message_iv_userphoto"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:background="@drawable/user_info_icon_shape"
+                android:scaleType="fitXY" />
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/message_layout_leftcontainer"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left" >
+
+             <TextView
+                android:id="@+id/message_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:gravity="center"
+                android:paddingBottom="4dip"
+                android:paddingLeft="8dip"
+                android:paddingRight="8dip"
+                android:paddingTop="4dip"
+                android:text="昵称"
+               />
+        
+            <View
+                android:id="@+id/left_margin_view"
+                android:layout_width="2dip"
+                android:layout_height="1dip" />
+            
+            <LinearLayout
+                android:id="@+id/message_layout_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/left_margin_view"
+                android:layout_marginRight="3dip"
+                android:layout_marginTop="8dip">
+
+                <TextView
+                    android:id="@+id/message_htv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:paddingBottom="4dip"
+                    android:paddingLeft="8dip"
+                    android:paddingRight="8dip"
+                    android:paddingTop="4dip"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </RelativeLayout>
+        	
+    </LinearLayout>
+
+	<LinearLayout
+	    android:id="@+id/message_layout_messagecontainer"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginRight="52dp"
+	    android:layout_marginTop="5dp"
+	    android:layout_x="60dp"
+	    android:layout_y="32dp"
+	    android:clickable="true"
+	    android:focusable="true"
+	    android:gravity="center_vertical"
+	    android:orientation="horizontal"
+	    android:padding="10dip" >
+	</LinearLayout>
+    
+</AbsoluteLayout>
+
+
+</LinearLayout>
