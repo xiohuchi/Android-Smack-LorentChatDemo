@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.lorent.chat.common.LcUserManager;
-import com.lorent.chat.smack.connection.MXmppConnManager;
 import com.lorent.chat.smack.connection.XmppFriendManager;
 import com.lorent.chat.smack.constVar.CustomConst;
 import com.lorent.chat.smack.engien.MsgEume.CHAT_STATES;
@@ -40,7 +39,7 @@ public class MReceiveChatListener implements ChatManagerListener {
 
     public MReceiveChatListener() {
         this.xManager = XmppFriendManager.getInstance();
-        this.hostUid = MXmppConnManager.hostUid;
+        this.hostUid = LcUserManager.instance.getHostUid();
         messageDAO = (MessageDAO) LcUserManager.instance.dabatases.get(CustomConst.DAO_MESSAGE);
         cPeopleDAO = (ChattingPeopleDAO) LcUserManager.instance.dabatases.get(CustomConst.DAO_CHATTING);
     }

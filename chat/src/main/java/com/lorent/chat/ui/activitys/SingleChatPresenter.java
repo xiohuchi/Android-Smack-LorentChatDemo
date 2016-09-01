@@ -2,6 +2,7 @@ package com.lorent.chat.ui.activitys;
 
 import android.os.Handler;
 
+import com.lorent.chat.common.LcUserManager;
 import com.lorent.chat.smack.connection.MXmppConnManager;
 import com.lorent.chat.ui.base.MvpPresenter;
 import com.lorent.chat.ui.contract.SingleChatContract;
@@ -16,7 +17,7 @@ public class SingleChatPresenter extends MvpPresenter<SingleChatContract.View> i
 
     @Override
     public String getHostUid() {
-        return MXmppConnManager.hostUid;
+        return LcUserManager.instance.getHostUid();
     }
 
     @Override

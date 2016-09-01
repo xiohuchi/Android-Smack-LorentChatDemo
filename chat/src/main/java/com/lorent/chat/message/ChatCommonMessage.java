@@ -19,7 +19,7 @@ import com.lorent.chat.ui.entity.CommonMessage;
 import com.lorent.chat.utils.TypeConverter;
 import com.lorent.chat.utils.cache.ImageFetcher;
 
-import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.Date;
 
 
@@ -219,25 +219,36 @@ public abstract class ChatCommonMessage {
      */
     private void loadSelfHeadDrawable() {
 
-        SoftReference<Drawable> drawableSoftReference = LcUserManager.instance.showDrawable.get(
+        WeakReference<Drawable> drawableSoftReference = LcUserManager.instance.showDrawable.get(
                 MXmppConnManager.getInstance().getConnection().getUser());
 
-        if (drawableSoftReference != null) {
-            mIvPhotoView.setImageDrawable(drawableSoftReference.get());
+        if (drawableSoftReference != null && drawableSoftReference.get() != null) {
+            showDrawable(drawableSoftReference.get());
         } else {
-            mIvPhotoView.setImageDrawable(helper.getHeadDrawable());
+            showDrawable(helper.getHeadDrawable());
         }
     }
 
-    private void loadOtherHeadDrawable(String key){
-        SoftReference<Drawable> drawableSoftReference = LcUserManager.instance.showDrawable.get(key);
-        if (drawableSoftReference != null) {
-            mIvPhotoView.setImageDrawable(drawableSoftReference.get());
+    /**
+     * 加载其他人的头像
+     * @param key
+     */
+    private void loadOtherHeadDrawable(String key) {
+        WeakReference<Drawable> drawableSoftReference = LcUserManager.instance.showDrawable.get(key);
+
+        if (drawableSoftReference != null && drawableSoftReference.get() != null) {
+            showDrawable(drawableSoftReference.get());
         } else {
-            mIvPhotoView.setImageDrawable(helper.getUserDrawable(key));
+            showDrawable(helper.getUserDrawable(key));
         }
     }
 
+    private void showDrawable(Drawable drawable){
+        if (drawable != null)
+            mIvPhotoView.setImageDrawable(drawable);
+        else
+            mIvPhotoView.setImageResource(R.drawable.qq_leba_list_seek_myfeeds);
+    }
 
     protected void refreshAdapter() {
         ((SingleChatActivity) mContext).refreshAdapter();

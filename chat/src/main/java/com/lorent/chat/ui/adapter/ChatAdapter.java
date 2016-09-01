@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import com.lorent.chat.R;
 import com.lorent.chat.common.LcUserManager;
 import com.lorent.chat.message.ChatCommonMessage;
-import com.lorent.chat.smack.connection.MXmppConnManager;
 import com.lorent.chat.smack.constVar.CustomConst;
 import com.lorent.chat.smack.engien.MsgEume.MSG_DERATION;
 import com.lorent.chat.smack.engien.MsgEume.MSG_STATE;
@@ -30,7 +29,7 @@ public class ChatAdapter extends BaseAdapter {
 
     public ChatAdapter(Context context, List<CommonMessage> messages) {
         messageDAO = (MessageDAO) LcUserManager.instance.dabatases.get(CustomConst.DAO_MESSAGE);
-        uid = MXmppConnManager.hostUid;
+        uid = LcUserManager.instance.getHostUid();
         this.context = context;
         this.messages = messages;
         //initImageFetcher();

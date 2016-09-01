@@ -23,6 +23,7 @@ import com.lorent.chat.utils.XMPPServer;
 import org.jivesoftware.smack.XMPPConnection;
 
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ public enum LcUserManager {
 
     public Map<String, SoftReference<Bitmap>> mPhotoOriginalCache = new HashMap<>();
     public Map<String, SoftReference<Bitmap>> mSendbarCache = new HashMap<>();
-    public Map<String, SoftReference<Drawable>> showDrawable = new HashMap<>();
+    public Map<String, WeakReference<Drawable>> showDrawable = new HashMap<>();
 
     // 连接管理者
     //public static XMPPTCPConnection xmppConnection;
@@ -72,6 +73,10 @@ public enum LcUserManager {
 
     public String getUserName() {
         return this.userName;
+    }
+
+    public String getHostUid(){
+        return getFullUserName();
     }
 
     public String getUserPwd() {

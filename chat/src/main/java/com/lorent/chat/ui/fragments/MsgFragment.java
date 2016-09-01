@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.lorent.chat.common.LcUserManager;
-import com.lorent.chat.smack.connection.MXmppConnManager;
 import com.lorent.chat.smack.constVar.CustomConst;
 import com.lorent.chat.ui.activitys.SingleChatActivity;
 import com.lorent.chat.ui.adapter.ChattingMsgAdapter;
@@ -30,7 +29,7 @@ public class MsgFragment extends ListFragment {
     private ChattingMsgAdapter adapter;
     private ChatPeopleService chatPeopleService;
     private ChattingPeopleDAO cPeopleDAO;
-    private String hostUid = MXmppConnManager.hostUid;
+    private String hostUid = LcUserManager.instance.getHostUid();
 
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {

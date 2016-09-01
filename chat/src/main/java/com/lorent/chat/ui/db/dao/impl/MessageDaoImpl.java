@@ -11,6 +11,7 @@ import com.lorent.chat.smack.engien.MsgEume.MSG_STATE;
 import com.lorent.chat.ui.db.DBHelper;
 import com.lorent.chat.ui.db.dao.MessageDAO;
 import com.lorent.chat.ui.entity.CommonMessage;
+import com.lorent.chat.utils.XLog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +22,7 @@ public class MessageDaoImpl implements MessageDAO {
     public static String TABLE = "BLIT_MESSAGE_PEOPLE_";
 
     private DBHelper dbHelper;
+    private java.lang.String tag = MessageDaoImpl.class.getSimpleName();
 
     public MessageDaoImpl(Context context) {
         dbHelper = new DBHelper(context);
@@ -28,37 +30,24 @@ public class MessageDaoImpl implements MessageDAO {
 
     @Override
     public long save(CommonMessage message, String uid) {
+        XLog.e(tag, "将消息：" + message + "保存到表:" + uid);
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         db.beginTransaction();
-
         ContentValues values = new ContentValues();
-
         values.put("uid", message.getUid());
-
         values.put("msgDirection", getMsgDirectionFromMSG_DIRECTION(message.getMsgComeFromType()));
-
         values.put("avatar", message.getAvatar());
-
         values.put("state", getStateFromMSG_STATE(message.getState()));
-
         values.put("content", message.getContent());
-
         values.put("msgtime", message.getTime() + "");
-
         values.put("distance", message.getDistance());
-
         values.put("contenttype", getContextTypeFromMSG_CONTENT_TYPE(message.getContentType()));
-
         values.put("name", message.getName());
 
         long rowid = db.insert(TABLE + uid.split("@")[0], null, values);
-
         System.out.println("MESSAGE INSERT " + rowid);
-
         db.setTransactionSuccessful();
-
         db.endTransaction();
 
         return rowid;
@@ -68,20 +57,14 @@ public class MessageDaoImpl implements MessageDAO {
     public List<CommonMessage> findMessageByUid(int page, int pageSize, String uid, String hostUid) {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         List<CommonMessage> megs = new ArrayList<CommonMessage>();
-
         Cursor cursor = db.query(TABLE + hostUid.split("@")[0], null, "uid = ?", new String[]{uid}, null, null, "msgtime desc",
                 page == 1 ? (0 + "," + pageSize) : ((((page - 1) * pageSize) + "") + "," + (pageSize) + ""));
 
         while (cursor.moveToNext()) {
-
             int state = cursor.getInt(4);
-
             int contextType = cursor.getInt(2);
-
             int msgDirection = cursor.getInt(7);
-
             megs.add(new CommonMessage(cursor.getInt(0),
                     uid,
                     cursor.getString(3),
@@ -97,12 +80,10 @@ public class MessageDaoImpl implements MessageDAO {
         }
 
         Collections.reverse(megs);
-
         return megs;
     }
 
     public MSG_STATE convertToMsgStateEnum(int state) {
-
         MSG_STATE mState = MSG_STATE.READED;
 
         switch (state) {
@@ -133,7 +114,6 @@ public class MessageDaoImpl implements MessageDAO {
     public MSG_CONTENT_TYPE convertToContextTypeEnum(int state) {
 
         MSG_CONTENT_TYPE mState = MSG_CONTENT_TYPE.TEXT;
-
         switch (state) {
             case 0:
                 mState = MSG_CONTENT_TYPE.TEXT;
@@ -156,7 +136,6 @@ public class MessageDaoImpl implements MessageDAO {
     }
 
     public MSG_DERATION convertToMsgDirectionEnum(int state) {
-
         MSG_DERATION mState = MSG_DERATION.SEND;
 
         switch (state) {

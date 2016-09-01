@@ -1,15 +1,12 @@
 package com.lorent.chat.smack;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
-import com.lorent.chat.R;
 import com.lorent.chat.common.LcUserManager;
-import com.lorent.chat.common.LorentChatApplication;
 import com.lorent.chat.smack.connection.MXmppConnManager;
-import com.lorent.chat.smack.constVar.CustomConst;
 import com.lorent.chat.utils.FormatTools;
 import com.lorent.chat.utils.XLog;
-import com.lorent.chat.utils.cache.CacheUtils;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
@@ -18,8 +15,7 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
-import java.io.ByteArrayInputStream;
-import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 
 /**
  * 用户头像
@@ -37,7 +33,7 @@ public class UserHeadImageHelper {
      * 获取用户信息类
      *
      * @param user 用户UID
-     * @return
+     * @return VCard
      */
     public VCard getVCard(String user) {
         VCardManager.getInstanceFor(connection);
@@ -66,16 +62,14 @@ public class UserHeadImageHelper {
         XLog.e(tag, "jid: " + jid);
 
         try {
-            VCard card = new VCard();
-            card.load(connection);
-            // card.setJabberId(jid);
+            VCard card = getVCard(jid);
+//            VCard card = new VCard();
+//            card.load(connection);
             card.setAvatar(image, "avatar1/jpg");
-
             vCardManager.saveVCard(card);
             XLog.e(tag, "保存头像成功");
-            LcUserManager.instance.showDrawable.put(jid, new SoftReference<>(FormatTools.getInstance().Bytes2Drawable(card.getAvatar())));
+            LcUserManager.instance.showDrawable.put(jid, new WeakReference<>(FormatTools.getInstance().Bytes2Drawable(card.getAvatar())));
 
-//            deleteAllUserImage(jid);
         } catch (SmackException.NoResponseException | SmackException.NotConnectedException e3) {
             e3.printStackTrace();
         }
@@ -85,75 +79,64 @@ public class UserHeadImageHelper {
         return getHeadDrawable(connection.getUser());
     }
 
+    /**
+     * 获取用户自己的头像
+     *
+     * @param jid connection.getUser()
+     * @return
+     */
     public Drawable getHeadDrawable(String jid) {
-        SoftReference<Drawable> drawableSoftReference = LcUserManager.instance.showDrawable.get(jid);
-        Drawable drawable;
+        Drawable drawable = null;
 
-        if (drawableSoftReference != null)
-            drawable = drawableSoftReference.get();
-        else {
-            try {
-                VCard vCard = new VCard();
-                vCard.setJabberId(jid);
-                vCard.load(connection);
-                if (vCard.getAvatar() == null) {
-                    return null;
-                }
-                drawable = FormatTools.getInstance().Bytes2Drawable(vCard.getAvatar());
-                LcUserManager.instance.showDrawable.put(userHeadFileName(jid), new SoftReference<>(drawable));
-            } catch (Exception e) {
-                e.printStackTrace();
-                drawable = LorentChatApplication.getInstance().getResources().getDrawable(R.drawable.qq_leba_list_seek_myfeeds);
-            }
-        }
-//        FormatTools.getInstance().Bytes2Bitmap()
-        return drawable;
-    }
-
-    //by wyq, 以后放在map里
-    public Drawable getUserDrawable(String user) {
-//		Log.i(tag, "getUserImage user : " + user);
-        SoftReference<Drawable> drawableSoftReference = LcUserManager.instance.showDrawable.get(user);
-        Drawable drawable;
-
-        if (drawableSoftReference != null)
-            drawable = drawableSoftReference.get();
-
-        ByteArrayInputStream bais = null;
         try {
-            VCard vCard = getVCard(user);
-            if (vCard == null || vCard.getAvatar() == null) {
-                return null;
+            VCard vCard = new VCard();
+            vCard.setJabberId(jid);
+            vCard.load(connection);
+            if (vCard.getAvatar() != null) {
+                drawable = FormatTools.getInstance().Bytes2Drawable(vCard.getAvatar());
+                LcUserManager.instance.showDrawable.put(jid, new WeakReference<>(drawable));
             }
-            bais = new ByteArrayInputStream(vCard.getAvatar());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (bais == null)
-            return null;
-        return FormatTools.getInstance().InputStream2Drawable(bais);
+        return drawable;
     }
 
-
     /**
-     * 默认缓存文件夹
+     * 获取他人的头像
      *
+     * @param user
      * @return
      */
-    private String userHeadFilePath() {
-        return CacheUtils.getImagePath(LorentChatApplication.getInstance(), CustomConst.USERHEAD_PATH);
+    public Drawable getUserDrawable(String user) {
+        Drawable drawable = null;
+        try {
+            VCard vCard = getVCard(user);
+            if (vCard != null && vCard.getAvatar() != null) {
+                drawable = FormatTools.getInstance().Bytes2Drawable(vCard.getAvatar());
+                LcUserManager.instance.showDrawable.put(user, new WeakReference<>(drawable));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return drawable;
     }
 
-    /**
-     * 获取文件名称
-     *
-     * @param fileName 15620608104@lntdev/Smack
-     * @return 将/替换为.之后返回的文件名称
-     */
-    private String userHeadFileName(String fileName) {
-        if (fileName.endsWith("Smack"))
-            return fileName;
+    public Bitmap getSelfBitmap(int width, int height) {
+        return drawable2BitMap(getHeadDrawable(), width, height);
+    }
+
+    public Bitmap getOtherBitmap(String key, int width, int height) {
+        return drawable2BitMap(getUserDrawable(key), width, height);
+    }
+
+    private Bitmap drawable2BitMap(Drawable drawable, int width, int height) {
+        if (drawable == null)
+            return null;
+
+        if (width >= 0 && height >= 0 && width <= drawable.getIntrinsicWidth() && height <= drawable.getIntrinsicHeight())
+            return FormatTools.getInstance().drawable2Bitmap(drawable, width, height);
         else
-            return fileName + "/Smack";
+            return FormatTools.getInstance().drawable2Bitmap(drawable);
     }
 }

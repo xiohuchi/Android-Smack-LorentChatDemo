@@ -55,9 +55,7 @@ public class MXmppConnManager {
     private ConnectionListener connectionListener;
     private MReceiveChatListener chatManagerListener;
     public FileTransferManager transferManager;
-    public static String hostUid;
     public FileTransferListener fileTranListener;
-//    private String mFullUserName = "";
 
     enum MXPPStatus {
         XDispConnect,    //无连接
@@ -521,7 +519,7 @@ public class MXmppConnManager {
 //                        while (!transfer.isDone()) {
 //                        }
                         if (rowid >= 0) {
-                            messageDAO.updateStateByRowid(rowid, hostUid, 1);
+                            messageDAO.updateStateByRowid(rowid, LcUserManager.instance.getHostUid(), 1);
                             Message msg = handler.obtainMessage(CustomConst.HANDLER_MSG_FILE_SUCCESS, mills);
                             handler.sendMessage(msg);
                         }

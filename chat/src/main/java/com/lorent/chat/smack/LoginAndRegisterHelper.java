@@ -78,7 +78,6 @@ public class LoginAndRegisterHelper {
                 return false;
             }
             MXmppConnManager.getInstance().setOffLineMessageManager(new OfflineMessageManager(connection));
-            MXmppConnManager.hostUid = connection.getUser();
             MXmppConnManager.getInstance().startChatLinstener();
 
             OfflineMessageSendBrocast.sendBrocast(context, OfflineMessageSendBrocast.getOfflineMegs());

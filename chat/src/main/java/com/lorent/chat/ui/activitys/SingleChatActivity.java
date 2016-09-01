@@ -28,7 +28,6 @@ import com.lorent.chat.R;
 import com.lorent.chat.common.LcUserManager;
 import com.lorent.chat.common.LorentChatApplication;
 import com.lorent.chat.smack.connection.MChatManager;
-import com.lorent.chat.smack.connection.MXmppConnManager;
 import com.lorent.chat.smack.connection.XmppFriendManager;
 import com.lorent.chat.smack.constVar.CustomConst;
 import com.lorent.chat.smack.engien.MsgEume.CHAT_STATES;
@@ -78,7 +77,7 @@ public class SingleChatActivity extends MvpChatActivity<SingleChatPresenter> imp
     private int maxPage = 1;
     private long sendRowid = 0;
 
-    private String hostUid = MXmppConnManager.hostUid;
+    private String hostUid = LcUserManager.instance.getHostUid();
     private String chatWithUid = null;
 
     @SuppressLint("NewApi")
